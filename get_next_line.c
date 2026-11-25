@@ -1,6 +1,6 @@
 #include "get_next_line.h"
 
-char *read_to_stash(int fd, char *stash)
+static char *read_to_stash(int fd, char *stash)
 {
 	char *buffer;
 	ssize_t ret;
@@ -38,3 +38,36 @@ char *read_to_stash(int fd, char *stash)
 	free(buffer);
 	return(stash);
 }
+
+static char *extract_line(char *stash)
+{
+	char *line;
+	size_t i;
+	size_t j;
+	if (!stash || !*stash)
+	{
+		return (NULL);
+	}
+	i = 0;
+	while (stash[i] != '\0' &&  stash[i] != '\n')
+	{
+
+		i++;
+	}
+	if (stash[i]=='\n')
+		i++;
+	line = malloc(i+1);
+	if (!line)
+		return (NULL);
+	j = 0;	
+	while(j<i)
+	{
+		line[j] = stash[j];
+		j++;	
+	}
+	line[j] = '\0';
+	return (line);
+}
+
+
+
